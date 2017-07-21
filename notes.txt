@@ -1,0 +1,57 @@
+create and start a new container based on oraclelinux:6.6
+open command line
+change root password
+	sh-4.1# passwd
+	Changing password for user root.
+	New password:
+	BAD PASSWORD: it is based on a dictionary word
+	Retype new password:
+	passwd: all authentication tokens updated successfully.
+	sh-4.1#
+update linux
+	sh-4.1# yum -y update
+
+install MySql
+	sh-4.1# yum -y install mysql mysql-server
+
+clear the yum cache
+	sh-4.1# rm -rf /var/cache/yum/*
+	
+Make sure the mysqld service is set to start on reboot and start the service.
+	sh-4.1# chkconfig mysqld on
+	sh-4.1# service mysqld start
+	sh-4.1#
+	sh-4.1#
+	sh-4.1#
+	sh-4.1#
+	sh-4.1#
+	sh-4.1#
+https://oracle-base.com/articles/mysql/mysql-installation-on-linux
+
+mkdir -p /u01/data/mysql/data
+mkdir -p /u01/data/mysql/log_bin
+mkdir -p /u01/data/mysql/tmpdir
+chown -R mysql:mysql /u01/data/mysql
+chmod -R 755 /u01/data/mysql
+
+
+
+stop the container
+get the contain id
+	docker ps -l -q
+create a new image from this container using
+	docker commit -m "ol6.6 + mysql" -a "steve hamilton" c8698b8a3b3b sshamilt/wcs:0.0.1
+	
+new container with this image
+	docker run -it -v //C/Users/Steve/docker/u01:/u01 --name tempMySql sshamilt/wcs:0.0.1
+	
+configure mysql with for a new database on the new volume and set root password
+
+stop the container
+get the contain id
+	docker ps -l -q
+create a new image from this container using
+	docker commit -m "mysql is configured and root passwd is welcome1" -a "steve hamilton" c4be1940e4b6 sshamilt/wcs:0.0.2
+	
+new container with this image
+	docker run -it -v //C/Users/Steve/docker/u01:/u01 --name tempWCS2 sshamilt/wcs:0.0.2
